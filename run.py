@@ -5,8 +5,9 @@ app = Flask(__name__, static_folder="./app/dist/static", template_folder="./app/
 env = DotEnv(app)
 
 
-@app.route("/")
-def main():
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def main(path):
     return render_template("index.html")
 
 
