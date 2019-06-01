@@ -1,1 +1,8 @@
+__pycache__/
+.idea
+.vscode
 .DS_Store
+.mariadb
+.env
+app/dist/*
+!app/dist/.gitkeep

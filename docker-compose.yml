@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    build: .
+    environment:
+      - DB_HOST=db
+    volumes:
+      - '.:/baro/src'
+    depends_on:
+      - db
+  nginx:
+    image: 'nginx:latest'
+    ports:
+      - '80:80'
+    volumes:
+      - './config/nginx/conf.d:/etc/nginx/conf.d'
+      - './app/dist/static:/baro/static'
+    depends_on:
+      - app
+  db:
+    image: 'mariadb:latest'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: baro
+      MYSQL_DATABASE: baro
+      MYSQL_USER: baro
+      MYSQL_PASSWORD: baro
+    ports:
+      - '3306:3306'
+    volumes:
+      - './.mariadb:/var/lib/mysql'
