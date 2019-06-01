@@ -135,8 +135,9 @@
       <a-divider/>
       <a-form-item :style="{textAlign: 'right'}">
         <a-button
-          size="large"
           type="primary"
+          size="large"
+          :style="{width: '100%', height: '50px'}"
           html-type="submit"
         >
           신청하기
