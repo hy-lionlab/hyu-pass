@@ -10,10 +10,14 @@
         <div class="right">
           <a-button :style="{marginRight: '5px'}">
             <a :href="mail" target="_blank" rel="noopener" aria-label="제보하기">
+              <a-icon type="mail" :style="{marginRight: '3px'}"/>
               제보하기
             </a>
           </a-button>
-          <a-button :style="{marginRight: '5px'}">목록보기</a-button>
+          <a-button :style="{marginRight: '5px'}">
+            <a-icon type="ordered-list" />
+            목록보기
+          </a-button>
           <a-button type="primary">
             <router-link to="/request">
               신청하기
