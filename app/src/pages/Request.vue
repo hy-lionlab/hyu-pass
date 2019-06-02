@@ -12,27 +12,30 @@
       <a-form-item
         label="신청 키워드"
         :colon="false"
+        :hasFeedback="true"
       >
         <a-col span="16">
           <a-input
             addonBefore="hyu.ac/"
             v-decorator="[
               'keyword',
-              {rules: [{ required: true, message: '키워드를 입력해주세요.' }]}
+              {rules: [{ required: true, message: '키워드를 입력해주세요.' }, {validator: this.handleKeywordsCheck}]}
             ]"
           />
         </a-col>
       </a-form-item>
       <a-form-item
         :colon="false"
-        label="연결 주소"
+        label="연결 주소 (http[s]를 포함한 연결 주소)"
       >
         <a-col span="24">
           <a-input
-            addonBefore="http(s)://"
             v-decorator="[
-              'redirect_url',
-              {rules: [{ required: true, message: '연결 주소를 입력해주세요.' }]}
+              'url',
+              {rules: [
+                { type: 'url', message: 'http(s)를 포함한 연결 주소를 입력해주세요.' },
+                { required: true, message: '연결 주소는 필수 입력해주세요.' },
+              ]}
             ]"
           />
         </a-col>
@@ -73,18 +76,18 @@
         <a-col span="12">
           <a-select
             v-decorator="[
-          'type',
+          'person_type',
           {rules: [{ required: true, message: '신청자 구분을 선택해주세요.' }]}
         ]"
             placeholder="신청자 구분을 선택해주세요."
           >
-            <a-select-option value="male">
+            <a-select-option value="1">
               직원
             </a-select-option>
-            <a-select-option value="female">
+            <a-select-option value="2">
               교수
             </a-select-option>
-            <a-select-option value="female">
+            <a-select-option value="3">
               학생
             </a-select-option>
           </a-select>
@@ -137,6 +140,8 @@
         <a-button
           type="primary"
           size="large"
+          :loading="is_requesting"
+          :disabled="is_requesting"
           :style="{width: '100%', height: '50px'}"
           html-type="submit"
         >
@@ -148,6 +153,7 @@
 </template>
 
 <script>
+  import axios from 'axios';
   import ATextarea from "ant-design-vue/es/input/TextArea";
 
   export default {
@@ -158,17 +164,52 @@
     data() {
       return {
         form: this.$form.createForm(this),
+        is_requesting: false,
       }
     },
 
     methods: {
-      handleSubmit  (e) {
+      handleSubmit(e) {
+        const $this = this;
+        $this.is_requesting = true;
+
         e.preventDefault();
-        this.form.validateFieldsAndScroll((err, values) => {
+
+        $this.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values);
+            axios.post(`${process.env.VUE_APP_API_HOST}/keywords`, values)
+              .then(response => {
+                $this.is_requesting = false;
+                alert(response.data.message);
+                $this.$router.push('/');
+              })
+              .catch(error => {
+                $this.is_requesting = false;
+                alert(error.response.data.message);
+              });
           }
         });
+      },
+
+      handleKeywordsCheck(rule, value, callback) {
+        if (!value) {
+          callback();
+
+          return false;
+        }
+
+        const $this = this;
+        $this.is_requesting = true;
+
+        axios.get(`${process.env.VUE_APP_API_HOST}/keywords/check?q=` + value)
+          .then(response => {
+            $this.is_requesting = false;
+            callback()
+          })
+          .catch(error => {
+            $this.is_requesting = false;
+            callback("사용할 수 없는 키워드입니다.");
+          });
       },
     }
   };

@@ -1,14 +1,18 @@
 <template>
   <div id="app">
     <a-layout>
-      <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+      <a-layout-header :style="{ position: 'fixed', zIndex: 9998, width: '100%' }">
         <router-link to="/" class="logo">
           <a-icon type="tag" theme="twoTone" :style="{fontSize: '16px', marginRight: '4px'}" twoToneColor="#025baf" />
           <span class="name">바로</span>
           <span class="colored-name">한양</span>
         </router-link>
         <div class="right">
-          <a-button :style="{marginRight: '5px'}">제보하기</a-button>
+          <a-button :style="{marginRight: '5px'}">
+            <a :href="mail" target="_blank" rel="noopener" aria-label="제보하기">
+              제보하기
+            </a>
+          </a-button>
           <a-button :style="{marginRight: '5px'}">목록보기</a-button>
           <a-button type="primary">
             <router-link to="/request">
@@ -41,6 +45,12 @@
 <script>
   export default {
     name: 'App',
+
+    computed: {
+      mail() {
+        return 'mailto:' + process.env.VUE_APP_REPORT_MAIL;
+      }
+    },
 
     mounted() {
       this.$Progress.finish();

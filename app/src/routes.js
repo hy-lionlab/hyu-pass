@@ -11,13 +11,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Intro Landing',
+      name: 'Intro',
       component: Intro,
     },
     {
       path: '/request',
-      name: 'Keyword Request',
+      name: 'Request',
       component: Request,
-    }
+    },
   ],
 });
