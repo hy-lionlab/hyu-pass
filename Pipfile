@@ -17,6 +17,8 @@ flask-migrate = "*"
 flask-script = "*"
 flask-wtf = "*"
 flask-cors = "*"
+rollbar = "*"
+blinker = "*"
 
 [requires]
 python_version = "3.7"
