@@ -69,8 +69,6 @@ class Url(db.Model):
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
     id = db.Column(db.Integer, primary_key=True)
-    request_id = db.Column(db.Integer, db.ForeignKey("baro_request.id"))
-    request = db.relationship("Request")
     keyword = db.Column(db.String(128))
     url = db.Column(db.Text)
     title = db.Column(db.Text)
