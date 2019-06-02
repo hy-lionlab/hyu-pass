@@ -19,7 +19,7 @@ from flask import got_request_exception
 def init_rollbar():
     """init rollbar module"""
     rollbar.init(
-        "d4300a6a8ac74165801b623620af1ecd",
+        app.config["ROLLBAR_TOKEN"],
         "flask",
         root=os.path.dirname(os.path.realpath(__file__)),
         allow_logging_basic_config=False,
