@@ -6,6 +6,8 @@ import Intro from './pages/Intro';
 import Request from './pages/Request';
 
 import Admin from './pages/admin/Index';
+import AdminRequest from './pages/admin/Request';
+import AdminKeyword from './pages/admin/Keyword';
 
 Vue.use(Router);
 
@@ -30,7 +32,17 @@ export default new Router({
     {
       path: '/admin',
       name: 'Admin',
-      component: Admin
+      component: Admin,
+      children: [
+        {
+          path: 'requests',
+          component: AdminRequest
+        },
+        {
+          path: 'keywords',
+          component: AdminKeyword
+        }
+      ]
     }
   ],
 });
