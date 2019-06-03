@@ -1,4 +1,5 @@
 import enum
+from sqlalchemy.inspection import inspect
 from datetime import datetime
 from baro import db
 
@@ -14,7 +15,16 @@ class PersonType(enum.Enum):
     student = 3
 
 
-class Request(db.Model):
+class Serializer(object):
+    def serialize(self):
+        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
+
+    @staticmethod
+    def serialize_list(l):
+        return [m.serialize() for m in l]
+
+
+class Request(db.Model, Serializer):
     __tablename__ = "baro_request"
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
@@ -63,8 +73,14 @@ class Request(db.Model):
         self.is_approved = 0
         self.disapproved_reason = None
 
+    def serialize(self):
+        d = Serializer.serialize(self)
+        del d["person_type"]
+        del d["request_type"]
+        return d
 
-class Url(db.Model):
+
+class Url(db.Model, Serializer):
     __tablename__ = "baro_url"
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
@@ -79,19 +95,16 @@ class Url(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
     deleted_at = db.Column(db.DateTime, nullable=True)
 
-    def __init__(
-        self, keyword, url, title, description, email, name, group, ip_address
-    ):
+    def __init__(self, keyword, url, title, description):
         self.keyword = keyword
         self.url = url
         self.title = title
         self.description = description
-        self.email = email
-        self.name = name
-        self.group = group
-        self.ip_address = ip_address
-
         self.click_count = 0
+
+    def serialize(self):
+        d = Serializer.serialize(self)
+        return d
 
 
 class Log(db.Model):

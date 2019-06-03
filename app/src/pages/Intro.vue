@@ -12,5 +12,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../styles/intro";
+@import '../styles/intro';
 </style>

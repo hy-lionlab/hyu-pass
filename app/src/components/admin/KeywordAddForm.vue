@@ -1,33 +1,29 @@
 <template>
   <div class="keyword-add-form">
-    <a-form
-      layout="inline"
-      :form="form"
-      @submit="handleSubmit"
-    >
-      <a-form-item
-        :hasFeedback="true"
-        help=""
-      >
+    <a-form layout="inline" :form="form" @submit="handleSubmit">
+      <a-form-item :hasFeedback="true" help="">
         <a-input
           addonBefore="hyu.ac/"
           :style="{ width: '350px' }"
           v-decorator="[
-          'keyword',
-          {rules: [{ required: true }, { validator: this.handleKeywordsCheck }]}
-        ]"
+            'keyword',
+            {
+              rules: [
+                { required: true },
+                { validator: this.handleKeywordsCheck },
+              ],
+            },
+          ]"
           placeholder="키워드 입력"
         />
       </a-form-item>
-      <a-form-item
-        help=""
-      >
+      <a-form-item help="">
         <a-input
           :style="{ width: '350px' }"
           v-decorator="[
-          'url',
-          {rules: [{ required: true }, {type: 'url' }]}
-        ]"
+            'url',
+            { rules: [{ required: true }, { type: 'url' }] },
+          ]"
           placeholder="주소 입력"
         />
       </a-form-item>
@@ -46,68 +42,65 @@
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from 'axios';
 
-  export default {
-    name: 'KeywordAddForm',
+export default {
+  name: 'KeywordAddForm',
 
-    data() {
-      return {
-        form: this.$form.createForm(this),
-        is_requesting: false,
-      };
+  data() {
+    return {
+      form: this.$form.createForm(this),
+      is_requesting: false,
+    };
+  },
+
+  methods: {
+    handleSubmit(e) {
+      const $this = this;
+      $this.is_requesting = true;
+
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          axios
+            .post(
+              `${process.env.VUE_APP_API_HOST}/admin/api/keywords`,
+              values,
+              {
+                withCredentials: true,
+              },
+            )
+            .then(response => {
+              $this.is_requesting = false;
+              alert(response.data.message);
+              $this.$router.push('/admin/keywords');
+            })
+            .catch(error => {
+              $this.is_requesting = false;
+              alert(error.response.data.message);
+            });
+        }
+      });
     },
 
-    methods: {
-      handleSubmit  (e) {
-        const $this = this;
-        $this.is_requesting = true;
+    handleKeywordsCheck(rule, value, callback) {
+      if (!value) {
+        callback();
 
-        e.preventDefault();
-        this.form.validateFields((err, values) => {
-          if (!err) {
-            console.log('Received values of form: ', values);
+        return false;
+      }
 
-            axios.post(`${process.env.VUE_APP_API_HOST}/urls`, values, {
-              withCredentials: true
-            })
-              .then(response => {
-                $this.is_requesting = false;
-                alert(response.data.message);
-                window.location.reload();
-              })
-              .catch(error => {
-                $this.is_requesting = false;
-                alert(error.response.data.message);
-              });
-          }
-        });
-      },
-
-      handleKeywordsCheck(rule, value, callback) {
-        if (!value) {
+      return axios
+        .get(`${process.env.VUE_APP_API_HOST}/keywords/check?q=${value}`)
+        .then(response => {
           callback();
-
-          return false;
-        }
-
-        const $this = this;
-        $this.is_requesting = true;
-
-        axios.get(`${process.env.VUE_APP_API_HOST}/keywords/check?q=` + value)
-          .then(response => {
-            $this.is_requesting = false;
-            callback()
-          })
-          .catch(error => {
-            $this.is_requesting = false;
-            callback("사용할 수 없는 키워드입니다.");
-          });
-      },
-    }
-  };
+        })
+        .catch(error => {
+          callback('사용할 수 없는 키워드입니다.');
+        });
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

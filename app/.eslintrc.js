@@ -10,10 +10,10 @@ module.exports = {
   },
   // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
   // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-  extends: ['plugin:vue/essential', 'airbnb-base'],
+  extends: ['plugin:vue/essential', 'airbnb-base', 'prettier', "prettier/standard"],
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue', 'prettier'
   ],
   // check if imports actually resolve
   settings: {
@@ -45,6 +45,7 @@ module.exports = {
       optionalDependencies: ['test/unit/index.js']
     }],
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    "prettier/prettier": "error"
   }
-}
+};

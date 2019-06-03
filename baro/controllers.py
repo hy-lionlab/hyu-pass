@@ -1,5 +1,4 @@
 from flask import render_template, request, jsonify, make_response, redirect
-from sqlalchemy import and_
 from baro import app, db
 from baro.models import Request, Url
 
@@ -16,7 +15,7 @@ def keywords_check():
         keyword = request.args.get("q")
 
         query = Url.query.filter(
-            and_(Url.keyword == keyword, Url.deleted_at.isnot(None))
+            Url.keyword == keyword and Url.deleted_at.isnot(None)
         ).exists()
 
         if db.session.query(query).scalar():
@@ -51,6 +50,6 @@ def keywords():
     return redirect("/")
 
 
-@app.errorhandler(Exception)
-def catch_error(e):
-    return make_response(jsonify({"message": e.message}), e.code)
+# @app.errorhandler(Exception)
+# def catch_error(e):
+#     return make_response(jsonify({"message": e.message}), e.code)

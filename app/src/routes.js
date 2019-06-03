@@ -16,33 +16,31 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Intro',
       component: Layouts,
       children: [
         {
           path: '',
-          component: Intro
+          component: Intro,
         },
         {
           path: 'request',
-          component: Request
-        }
-      ]
+          component: Request,
+        },
+      ],
     },
     {
       path: '/admin',
-      name: 'Admin',
       component: Admin,
       children: [
         {
           path: 'requests',
-          component: AdminRequest
+          component: AdminRequest,
         },
         {
           path: 'keywords',
-          component: AdminKeyword
-        }
-      ]
-    }
+          component: AdminKeyword,
+        },
+      ],
+    },
   ],
 });
