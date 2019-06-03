@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, make_response
+from flask import render_template, request, jsonify, make_response, redirect
 from sqlalchemy import and_
 from baro import app, db
 from baro.models import Request, Url
@@ -10,7 +10,7 @@ def catch_all(path):
     return render_template("index.html")
 
 
-@app.route("/keywords/check", methods=["GET"])
+@app.route("/keywords/check")
 def keywords_check():
     if request.method == "GET":
         keyword = request.args.get("q")
@@ -24,8 +24,10 @@ def keywords_check():
 
         return make_response("", 200)
 
+    return redirect("/")
 
-@app.route("/keywords", methods=["POST"])
+
+@app.route("/keywords")
 def keywords():
     if request.method == "POST":
         args = request.get_json(silent=True)
@@ -45,7 +47,8 @@ def keywords():
         db.session.commit()
 
         return make_response(jsonify({"message": "키워드 신청을 완료했습니다."}), 201)
-    return "Create!"
+
+    return redirect("/")
 
 
 @app.errorhandler(Exception)

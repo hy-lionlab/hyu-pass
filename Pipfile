@@ -18,6 +18,7 @@ flask-wtf = "*"
 flask-cors = "*"
 rollbar = "*"
 blinker = "*"
+flask-httpauth = "*"
 
 [requires]
 python_version = "3.7"
