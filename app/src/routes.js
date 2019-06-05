@@ -19,10 +19,10 @@ export default new Router({
       children: [
         {
           path: '',
-          redirect: 'request',
+          redirect: 'requests',
         },
         {
-          path: 'request',
+          path: 'requests',
           component: Request,
         },
       ],
@@ -31,6 +31,10 @@ export default new Router({
       path: '/admin',
       component: Admin,
       children: [
+        {
+          path: '',
+          redirect: 'requests',
+        },
         {
           path: 'requests',
           component: AdminRequest,
