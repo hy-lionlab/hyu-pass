@@ -10,9 +10,14 @@
         <a-divider type="vertical" />
         <a-button type="danger">반려</a-button>
       </span>
-      <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
-        {{ record.tags }}
-      </p>
+      <div slot="expandedRowRender" slot-scope="record" style="margin: 0">
+        <p>
+          <strong>{{ record.title }}</strong>
+        </p>
+        <p>{{ record.description }}</p>
+        <p>{{ record.name }} ({{ record.group }})</p>
+        <p>{{ record.email }}</p>
+      </div>
     </a-table>
   </div>
 </template>
@@ -71,12 +76,17 @@ export default {
               key: index.toString(),
               keyword: value.keyword,
               url: value.url,
+              title: value.title,
+              description: value.description,
+              email: value.email,
+              name: value.name,
+              group: value.group,
               created_at: value.created_at,
             };
           });
         })
-        .catch(error => {
-          alert('정보를 불러오는 도중 오류가 발생했습니다.');
+        .catch(() => {
+          $this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
         });
     },
   },
