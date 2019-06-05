@@ -4,11 +4,6 @@ from datetime import datetime
 from baro import db
 
 
-class RequestType(enum.Enum):
-    Create = 1
-    Edit = 2
-
-
 class PersonType(enum.Enum):
     worker = 1
     professor = 2
@@ -29,7 +24,6 @@ class Request(db.Model, Serializer):
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
     id = db.Column(db.Integer, primary_key=True)
-    request_type = db.Column(db.Enum(RequestType))
     person_type = db.Column(db.Enum(PersonType))
     keyword = db.Column(db.String(128))
     url = db.Column(db.Text)
@@ -60,7 +54,6 @@ class Request(db.Model, Serializer):
         ip_address,
     ):
         self.keyword = keyword
-        self.request_type = RequestType.Create
         self.url = url
         self.title = title
         self.description = description
