@@ -69,7 +69,6 @@ class Request(db.Model, Serializer):
     def serialize(self):
         d = Serializer.serialize(self)
         del d["person_type"]
-        del d["request_type"]
         return d
 
 
