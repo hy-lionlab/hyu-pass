@@ -29,7 +29,7 @@ class Request(db.Model, Serializer):
     url = db.Column(db.Text)
     title = db.Column(db.Text)
     description = db.Column(db.Text)
-    email = db.Column(db.String(64))
+    email = db.Column(db.String(128))
     name = db.Column(db.String(32))
     group = db.Column(db.String(32))
     ip_address = db.Column(db.String(41))
@@ -119,3 +119,30 @@ class Log(db.Model):
         self.user_agent = user_agent
         self.ip_address = ip_address
         self.country_code = country_code
+
+
+class Support(db.Model, Serializer):
+    __tablename__ = "support"
+    __table_args__ = {"mysql_collate": "utf8_general_ci"}
+
+    id = db.Column(db.Integer, primary_key=True)
+    keyword = db.Column(db.String(128))
+    url = db.Column(db.Text, nullable=True)
+    email = db.Column(db.String(128))
+    description = db.Column(db.Text)
+    ip_address = db.Column(db.String(41))
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    deleted_at = db.Column(db.DateTime, nullable=True)
+
+    def __init__(self, keyword, url, email, description, ip_address):
+        self.keyword = keyword
+        self.url = url
+        self.email = email
+        self.description = description
+        self.ip_address = ip_address
+
+    def serialize(self):
+        d = Serializer.serialize(self)
+        return d

@@ -7,7 +7,7 @@ from flask import render_template, request, jsonify, make_response, redirect
 from flask_classful import FlaskView, route
 
 from baro import app, db
-from baro.models import Request, Url, Log
+from baro.models import Request, Url, Log, Support
 
 
 def get_reserved_keywords():
@@ -66,6 +66,26 @@ def index():
     return render_template("index.html")
 
 
+class SupportView(FlaskView):
+    route_base = "supports"
+    route_prefix = "/api/"
+
+    def post(self):
+        args = request.get_json(silent=True)
+
+        support = Support(
+            args["keyword"],
+            args["url"],
+            args["email"] + "@hanyang.ac.kr",
+            args["description"],
+            request.remote_addr,
+        )
+        db.session.add(support)
+        db.session.commit()
+
+        return make_response(jsonify({"message": "문의 접수가 되었습니다."}), 201)
+
+
 class KeywordView(FlaskView):
     route_base = "keywords"
     route_prefix = "/api/"
@@ -104,6 +124,7 @@ class KeywordView(FlaskView):
         return make_response("", 200)
 
 
+SupportView.register(app)
 KeywordView.register(app)
 
 

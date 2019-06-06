@@ -176,7 +176,7 @@ export default {
             .post(`${process.env.VUE_APP_API_HOST}/api/keywords`, values)
             .then(response => {
               $this.is_requesting = false;
-              $this.$message.error(response.data.message);
+              $this.$message.success(response.data.message);
 
               // FIXME: 경로 수정하기
               $this.$router.push('/');

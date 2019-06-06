@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Sorry from './pages/Sorry';
 
 import Layouts from './pages/Layouts';
+import Support from './pages/Support';
 import Request from './pages/Request';
 
 import Admin from './pages/admin/Index';
@@ -23,6 +24,10 @@ export default new Router({
         {
           path: '',
           redirect: 'requests',
+        },
+        {
+          path: 'supports',
+          component: Support,
         },
         {
           path: 'requests',

@@ -15,17 +15,17 @@
       </router-link>
       <div class="right">
         <a-button :style="{ marginRight: '5px' }">
-          <a :href="mail" target="_blank" rel="noopener" aria-label="제보하기">
-            <a-icon type="mail" :style="{ marginRight: '3px' }" />
-            제보하기
-          </a>
+          <router-link to="/supports">
+            <a-icon type="question" :style="{ marginRight: '3px' }" />
+            문의하기
+          </router-link>
         </a-button>
         <a-button :style="{ marginRight: '5px' }">
           <a-icon type="ordered-list" />
           목록보기
         </a-button>
         <a-button type="primary">
-          <router-link to="/request">
+          <router-link to="/requests">
             신청하기
           </router-link>
         </a-button>
