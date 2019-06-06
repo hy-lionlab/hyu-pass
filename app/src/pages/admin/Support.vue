@@ -5,18 +5,11 @@
       <a slot="url" slot-scope="text" :href="text" target="_blank">{{
         text
       }}</a>
-      <span slot="action" slot-scope="text, record">
-        <a-button type="primary">승인</a-button>
-        <a-divider type="vertical" />
-        <a-button type="danger">반려</a-button>
-      </span>
       <div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-        <p>
-          <strong>{{ record.title }}</strong>
-        </p>
         <p>{{ record.description }}</p>
-        <p>{{ record.name }} ({{ record.group }})</p>
-        <p>{{ record.email }}</p>
+        <p :style="{ fontSize: '12px', fontWeight: 'bold' }">
+          IP 주소 - {{ record.ip_address }}
+        </p>
       </div>
     </a-table>
   </div>
@@ -39,19 +32,19 @@ const columns = [
     scopedSlots: { customRender: 'url' },
   },
   {
+    title: '이메일',
+    dataIndex: 'email',
+    key: 'email',
+  },
+  {
     title: '신청일',
     dataIndex: 'created_at',
     key: 'created_at',
   },
-  {
-    title: 'Actions',
-    key: 'action',
-    scopedSlots: { customRender: 'action' },
-  },
 ];
 
 export default {
-  name: 'AdminRequest',
+  name: 'AdminSupport',
 
   mounted() {
     this.fetch();
@@ -69,18 +62,16 @@ export default {
       const $this = this;
 
       axios
-        .get(`${process.env.VUE_APP_API_HOST}/admin/api/requests`)
+        .get(`${process.env.VUE_APP_API_HOST}/admin/api/supports`)
         .then(response => {
-          $this.data = response.data.requests.map((value, index) => {
+          $this.data = response.data.supports.map((value, index) => {
             return {
               key: index.toString(),
               keyword: value.keyword,
               url: value.url,
-              title: value.title,
-              description: value.description,
               email: value.email,
-              name: value.name,
-              group: value.group,
+              description: value.description,
+              ip_address: value.ip_address,
               created_at: value.created_at,
             };
           });

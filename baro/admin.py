@@ -1,9 +1,11 @@
 from flask import render_template, jsonify, make_response, request
+from flask_classful import FlaskView, route
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
+
 from baro import app, db
-from baro.models import Request, Url
+from baro.models import Request, Url, Support
 
 
 auth = HTTPBasicAuth()
@@ -22,6 +24,7 @@ def verify_password(username, password):
 @app.route("/admin")
 @app.route("/admin/requests")
 @app.route("/admin/keywords")
+@app.route("/admin/supports")
 @auth.login_required
 def admin():
     return render_template("index.html")
@@ -51,3 +54,15 @@ def admin_keywords():
         return make_response(jsonify({"message": "키워드 생성을 완료했습니다."}), 201)
 
     return make_response(None, 200)
+
+
+class AdminSupportView(FlaskView):
+    route_base = "supports"
+    route_prefix = "/admin/api/"
+
+    def get(self):
+        supports = Support.query.order_by(desc(Support.created_at)).all()
+        return make_response(jsonify(supports=Support.serialize_list(supports)))
+
+
+AdminSupportView.register(app)

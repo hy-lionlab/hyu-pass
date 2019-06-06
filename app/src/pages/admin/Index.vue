@@ -36,6 +36,11 @@
               키워드 목록
             </router-link>
           </a-menu-item>
+          <a-menu-item key="/admin/supports">
+            <router-link to="/admin/supports">
+              문의 목록
+            </router-link>
+          </a-menu-item>
         </a-menu>
       </a-layout-header>
     </a-layout>

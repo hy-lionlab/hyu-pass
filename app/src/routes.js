@@ -10,6 +10,7 @@ import Request from './pages/Request';
 import Admin from './pages/admin/Index';
 import AdminRequest from './pages/admin/Request';
 import AdminKeyword from './pages/admin/Keyword';
+import AdminSupport from './pages/admin/Support';
 
 Vue.use(Router);
 
@@ -54,6 +55,10 @@ export default new Router({
         {
           path: 'keywords',
           component: AdminKeyword,
+        },
+        {
+          path: 'supports',
+          component: AdminSupport,
         },
       ],
     },
