@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Sorry from './pages/Sorry';
+
 import Layouts from './pages/Layouts';
 import Request from './pages/Request';
 
@@ -17,6 +19,7 @@ export default new Router({
       path: '/',
       component: Layouts,
       children: [
+        // ROOT PATH DEFAULT
         {
           path: '',
           redirect: 'requests',
@@ -26,6 +29,10 @@ export default new Router({
           component: Request,
         },
       ],
+    },
+    {
+      path: '/sorry',
+      component: Sorry,
     },
     {
       path: '/admin',

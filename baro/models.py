@@ -20,7 +20,7 @@ class Serializer(object):
 
 
 class Request(db.Model, Serializer):
-    __tablename__ = "baro_request"
+    __tablename__ = "request"
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
     id = db.Column(db.Integer, primary_key=True)
@@ -73,7 +73,7 @@ class Request(db.Model, Serializer):
 
 
 class Url(db.Model, Serializer):
-    __tablename__ = "baro_url"
+    __tablename__ = "url"
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
     id = db.Column(db.Integer, primary_key=True)
@@ -81,7 +81,7 @@ class Url(db.Model, Serializer):
     url = db.Column(db.Text)
     title = db.Column(db.Text)
     description = db.Column(db.Text)
-    click_count = db.Column(db.Integer, default=0)
+    hit_count = db.Column(db.Integer, default=0)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -92,7 +92,7 @@ class Url(db.Model, Serializer):
         self.url = url
         self.title = title
         self.description = description
-        self.click_count = 0
+        self.hit_count = 0
 
     def serialize(self):
         d = Serializer.serialize(self)
@@ -100,20 +100,21 @@ class Url(db.Model, Serializer):
 
 
 class Log(db.Model):
-    __tablename__ = "baro_log"
+    __tablename__ = "log"
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
     id = db.Column(db.Integer, primary_key=True)
     url_id = db.Column(db.Integer, db.ForeignKey("baro_url.id"))
     url = db.relationship("Url")
-    referrer = db.Column(db.Text)
+    referrer = db.Column(db.Text, nullable=True)
     user_agent = db.Column(db.Text)
     ip_address = db.Column(db.String(41))
-    country_code = db.Column(db.String(2))
+    country_code = db.Column(db.String(2), nullable=True)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, url_id, referrer, user_agent, ip_address, country_code):
+        self.url_id = url_id
         self.referrer = referrer
         self.user_agent = user_agent
         self.ip_address = ip_address

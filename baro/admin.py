@@ -21,7 +21,7 @@ def verify_password(username, password):
 
 @app.route("/admin")
 @auth.login_required
-def index():
+def admin():
     return render_template("index.html")
 
 
