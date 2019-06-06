@@ -2,7 +2,12 @@
   <div class="baro-admin">
     <a-layout>
       <a-layout-header
-        :style="{ position: 'fixed', zIndex: 9998, width: '980px' }"
+        :style="{
+          position: 'fixed',
+          zIndex: 9998,
+          width: '980px',
+          padding: '0',
+        }"
       >
         <router-link to="/admin/requests" class="logo">
           <a-icon

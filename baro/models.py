@@ -34,7 +34,7 @@ class Request(db.Model, Serializer):
     group = db.Column(db.String(32))
     ip_address = db.Column(db.String(41))
 
-    is_approved = db.Column(db.Boolean, default=0)
+    is_approved = db.Column(db.Boolean, nullable=True)
     disapproved_reason = db.Column(db.Text, nullable=True)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -63,7 +63,7 @@ class Request(db.Model, Serializer):
         self.group = group
         self.ip_address = ip_address
 
-        self.is_approved = 0
+        self.is_approved = None
         self.disapproved_reason = None
 
     def serialize(self):
@@ -77,7 +77,7 @@ class Url(db.Model, Serializer):
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
     id = db.Column(db.Integer, primary_key=True)
-    keyword = db.Column(db.String(128))
+    keyword = db.Column(db.String(128), unique=True)
     url = db.Column(db.Text)
     title = db.Column(db.Text)
     description = db.Column(db.Text)
