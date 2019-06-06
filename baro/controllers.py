@@ -4,8 +4,14 @@ import geoip2.database
 
 from sqlalchemy import exc
 from flask import render_template, request, jsonify, make_response, redirect
+from flask_classful import FlaskView, route
+
 from baro import app, db
 from baro.models import Request, Url, Log
+
+
+def get_reserved_keywords():
+    return []
 
 
 def get_country_code(ip_address):
@@ -60,25 +66,11 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/api/keywords/check")
-def keywords_check():
-    if request.method == "GET":
-        keyword = request.args.get("q")
+class KeywordView(FlaskView):
+    route_base = "keywords"
+    route_prefix = "/api/"
 
-        # TODO: Reserved Keywords 가 있는지 체크
-
-        query = Url.query.filter(Url.keyword == keyword).exists()
-        if db.session.query(query).scalar():
-            return make_response("", 400)
-
-        return make_response("", 200)
-
-    return redirect("/")
-
-
-@app.route("/api/keywords")
-def keywords():
-    if request.method == "POST":
+    def post(self):
         args = request.get_json(silent=True)
 
         keyword = Request(
@@ -97,7 +89,22 @@ def keywords():
 
         return make_response(jsonify({"message": "키워드 신청을 완료했습니다."}), 201)
 
-    return redirect("/")
+    @route("/check/")
+    def check(self):
+        keyword = request.args.get("q")
+
+        # TODO: Reserved Keywords 가 있는지 체크
+        if keyword in get_reserved_keywords():
+            return make_response("", 400)
+
+        query = Url.query.filter(Url.keyword == keyword).exists()
+        if db.session.query(query).scalar():
+            return make_response("", 400)
+
+        return make_response("", 200)
+
+
+KeywordView.register(app)
 
 
 # FIXME: 개발 완료 시 해제

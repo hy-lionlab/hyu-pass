@@ -173,15 +173,17 @@ export default {
       $this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           axios
-            .post(`${process.env.VUE_APP_API_HOST}/keywords`, values)
+            .post(`${process.env.VUE_APP_API_HOST}/api/keywords`, values)
             .then(response => {
               $this.is_requesting = false;
-              alert(response.data.message);
+              $this.$message.error(response.data.message);
+
+              // FIXME: 경로 수정하기
               $this.$router.push('/');
             })
             .catch(error => {
               $this.is_requesting = false;
-              alert(error.response.data.message);
+              $this.$message.error(error.response.data.message);
             });
         }
       });
@@ -198,12 +200,12 @@ export default {
       $this.is_requesting = true;
 
       return axios
-        .get(`${process.env.VUE_APP_API_HOST}/keywords/check?q=${value}`)
-        .then(response => {
+        .get(`${process.env.VUE_APP_API_HOST}/api/keywords/check?q=${value}`)
+        .then(() => {
           $this.is_requesting = false;
           callback();
         })
-        .catch(error => {
+        .catch(() => {
           $this.is_requesting = false;
           callback('사용할 수 없는 키워드입니다.');
         });

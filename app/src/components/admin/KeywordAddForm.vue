@@ -72,12 +72,12 @@ export default {
             )
             .then(response => {
               $this.is_requesting = false;
-              alert(response.data.message);
+              $this.$message.success(response.data.message);
               $this.$router.push('/admin/keywords');
             })
             .catch(error => {
               $this.is_requesting = false;
-              alert(error.response.data.message);
+              $this.$message.error(error.response.data.message);
             });
         }
       });
@@ -91,11 +91,11 @@ export default {
       }
 
       return axios
-        .get(`${process.env.VUE_APP_API_HOST}/keywords/check?q=${value}`)
-        .then(response => {
+        .get(`${process.env.VUE_APP_API_HOST}/api/keywords/check?q=${value}`)
+        .then(() => {
           callback();
         })
-        .catch(error => {
+        .catch(() => {
           callback('사용할 수 없는 키워드입니다.');
         });
     },

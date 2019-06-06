@@ -85,8 +85,8 @@ export default {
             };
           });
         })
-        .catch(error => {
-          alert('정보를 불러오는 도중 오류가 발생했습니다.');
+        .catch(() => {
+          $this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
         });
     },
   },

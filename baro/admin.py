@@ -20,6 +20,8 @@ def verify_password(username, password):
 
 
 @app.route("/admin")
+@app.route("/admin/requests")
+@app.route("/admin/keywords")
 @auth.login_required
 def admin():
     return render_template("index.html")

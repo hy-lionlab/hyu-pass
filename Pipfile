@@ -20,6 +20,7 @@ rollbar = "*"
 blinker = "*"
 flask-httpauth = "*"
 geoip2 = "*"
+flask-classful = "*"
 
 [requires]
 python_version = "3.7"
