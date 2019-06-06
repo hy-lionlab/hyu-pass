@@ -5,6 +5,7 @@ import Sorry from './pages/Sorry';
 
 import Layouts from './pages/Layouts';
 import Support from './pages/Support';
+import Keyword from './pages/Keyword';
 import Request from './pages/Request';
 
 import Admin from './pages/admin/Index';
@@ -29,6 +30,10 @@ export default new Router({
         {
           path: 'supports',
           component: Support,
+        },
+        {
+          path: 'keywords',
+          component: Keyword,
         },
         {
           path: 'requests',

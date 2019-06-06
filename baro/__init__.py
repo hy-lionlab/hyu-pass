@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, static_folder="../app/dist/static", template_folder="../app/dist")
 app.url_map.strict_slashes = False
+
 csrf = CSRFProtect(app)
 env = DotEnv(app)
 db = SQLAlchemy(app)

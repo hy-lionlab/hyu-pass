@@ -2,7 +2,7 @@ import os
 import geoip2.errors
 import geoip2.database
 
-from sqlalchemy import exc
+from sqlalchemy import exc, desc
 from flask import render_template, request, jsonify, make_response, redirect
 from flask_classful import FlaskView, route
 
@@ -89,6 +89,10 @@ class SupportView(FlaskView):
 class KeywordView(FlaskView):
     route_base = "keywords"
     route_prefix = "/api/"
+
+    def get(self):
+        keywords = Url.query.order_by(desc(Url.created_at)).all()
+        return make_response(jsonify(keywords=Url.serialize_list(keywords)))
 
     def post(self):
         args = request.get_json(silent=True)

@@ -1,21 +1,19 @@
 <template>
-  <div class="admin-keyword-wrap">
-    <a-table :columns="columns" :dataSource="data">
-      <a slot="keyword" slot-scope="text">{{ text }}</a>
-      <a slot="url" slot-scope="text" :href="text" target="_blank">{{
-        text
-      }}</a>
-      <span slot="action" slot-scope="text, record">
-        <a href="javascript:;">수정</a>
-        <a-divider type="vertical" />
-        <a href="javascript:;">삭제</a>
-      </span>
-      <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
-        <strong>{{ record.title }}</strong>
-        <br /><br />
-        {{ record.description }}
-      </p>
-    </a-table>
+  <div class="keyword-wrap">
+    <div class="keyword-content">
+      <h1 class="title">목록 보기</h1>
+      <a-table :columns="columns" :dataSource="data">
+        <a slot="keyword" slot-scope="text">{{ text }}</a>
+        <a slot="url" slot-scope="text" :href="text" target="_blank">{{
+          text
+        }}</a>
+        <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
+          <strong>{{ record.title }}</strong>
+          <br /><br />
+          {{ record.description }}
+        </p>
+      </a-table>
+    </div>
   </div>
 </template>
 
@@ -36,24 +34,14 @@ const columns = [
     scopedSlots: { customRender: 'url' },
   },
   {
-    title: 'Hit',
-    dataIndex: 'hit_count',
-    key: 'hit_count',
-  },
-  {
-    title: '생성일',
+    title: '시작일',
     dataIndex: 'created_at',
     key: 'created_at',
-  },
-  {
-    title: 'Actions',
-    key: 'action',
-    scopedSlots: { customRender: 'action' },
   },
 ];
 
 export default {
-  name: 'AdminKeyword',
+  name: 'Keyword',
 
   mounted() {
     this.fetch();
@@ -71,7 +59,7 @@ export default {
       const $this = this;
 
       axios
-        .get(`${process.env.VUE_APP_API_HOST}/admin/api/keywords`)
+        .get(`${process.env.VUE_APP_API_HOST}/api/keywords`)
         .then(response => {
           $this.data = response.data.keywords.map((value, index) => {
             return {
@@ -81,7 +69,6 @@ export default {
               title: value.title,
               description: value.description,
               created_at: value.created_at,
-              hit_count: value.hit_count,
             };
           });
         })
@@ -92,3 +79,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/keyword';
+</style>
