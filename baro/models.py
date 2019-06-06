@@ -104,7 +104,7 @@ class Log(db.Model):
     __table_args__ = {"mysql_collate": "utf8_general_ci"}
 
     id = db.Column(db.Integer, primary_key=True)
-    url_id = db.Column(db.Integer, db.ForeignKey("baro_url.id"))
+    url_id = db.Column(db.Integer, db.ForeignKey("url.id"))
     url = db.relationship("Url")
     referrer = db.Column(db.Text, nullable=True)
     user_agent = db.Column(db.Text)
