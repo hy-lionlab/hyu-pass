@@ -1,8 +1,6 @@
 <template>
   <a-layout>
-    <a-layout-header
-      :style="{ position: 'fixed', zIndex: 9998, width: '100%' }"
-    >
+    <a-layout-header :style="{ position: 'fixed', zIndex: 5, width: '100%' }">
       <router-link to="/" class="logo">
         <a-icon
           type="tag"

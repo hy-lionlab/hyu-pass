@@ -4,7 +4,7 @@
       <a-layout-header
         :style="{
           position: 'fixed',
-          zIndex: 9998,
+          zIndex: 5,
           width: '980px',
           padding: '0',
         }"

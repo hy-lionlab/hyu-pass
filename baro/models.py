@@ -81,6 +81,7 @@ class Url(db.Model, Serializer):
     url = db.Column(db.Text)
     title = db.Column(db.Text)
     description = db.Column(db.Text)
+    is_active = db.Column(db.Boolean, default=True)
     hit_count = db.Column(db.Integer, default=0)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -92,6 +93,7 @@ class Url(db.Model, Serializer):
         self.url = url
         self.title = title
         self.description = description
+        self.is_active = True
         self.hit_count = 0
 
     def serialize(self):

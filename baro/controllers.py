@@ -36,7 +36,7 @@ def catch_all(path):
 
     # 등록된 Keywords 확인 - Redirect 302
     url_obj = Url.query.filter(Url.keyword == path and Url.deleted_at.is_(None)).first()
-    if url_obj:
+    if url_obj and url_obj.is_active:
         url_obj.hit_count = int(url_obj.hit_count) + 1
 
         try:
@@ -90,7 +90,7 @@ class KeywordView(FlaskView):
     route_base = "keywords"
     route_prefix = "/api/"
 
-    def get(self):
+    def index(self):
         keywords = Url.query.order_by(desc(Url.created_at)).all()
         return make_response(jsonify(keywords=Url.serialize_list(keywords)))
 
