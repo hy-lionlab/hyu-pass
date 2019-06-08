@@ -103,7 +103,10 @@ class AdminRequestView(FlaskView):
 
         # 승인 결과 메일 발송
         html_string = render_template(
-            "email/approved.html", keyword=args["keyword"], name=args["name"]
+            "email/approved.html",
+            keyword=request_obj.keyword,
+            name=request_obj.name,
+            url=request_obj.url,
         )
         email.send_email(request_obj.email, "[한양] 신청하신 키워드가 승인되었습니다.", html_string)
 

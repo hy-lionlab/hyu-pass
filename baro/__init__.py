@@ -4,6 +4,7 @@ import jinja2
 from flask import Flask
 from flask_cors import CORS
 from flask_dotenv import DotEnv
+from flask_qrcode import QRcode
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 
@@ -18,6 +19,7 @@ app.jinja_loader = jinja_loader
 csrf = CSRFProtect(app)
 env = DotEnv(app)
 db = SQLAlchemy(app)
+QRcode(app)
 
 import os
 import rollbar

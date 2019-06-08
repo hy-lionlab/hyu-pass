@@ -22,6 +22,7 @@ flask-httpauth = "*"
 geoip2 = "*"
 flask-classful = "*"
 boto3 = "*"
+flask-qrcode = "*"
 
 [requires]
 python_version = "3.7"
