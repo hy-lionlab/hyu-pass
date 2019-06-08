@@ -42,14 +42,19 @@
     height: 32px;
   }
 
-  .keyword-add-form {
-    .ant-form-item-children-icon {
-      margin-top: -14px;
-      height: 32px;
-    }
+  .right-button {
+    float: right;
   }
 }
 
 .input-type-hidden-item {
   margin: 0;
 }
+
+.keyword-add-modal {
+  .ant-form-item-children-icon {
+    margin-top: 4px !important;
+    height: 32px !important;
+  }
+}
+

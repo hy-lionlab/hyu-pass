@@ -47,26 +47,144 @@
             </router-link>
           </a-menu-item>
         </a-menu>
+        <div class="right-button">
+          <a-button type="primary" html-type="submit" @click="showModal">
+            키워드 등록하기
+          </a-button>
+        </div>
       </a-layout-header>
     </a-layout>
     <div class="admin-wrap">
-      <keyword-add-form />
       <router-view />
     </div>
+    <a-modal
+      title="키워드 등록하기"
+      v-model="visible"
+      @ok="confirmRegister"
+      ok-text="등록"
+      cancel-text="취소"
+      :destroyOnClose="true"
+      class="keyword-add-modal"
+    >
+      <a-form :form="form">
+        <a-form-item
+          label="신청 키워드"
+          :colon="false"
+          :hasFeedback="true"
+          help=""
+        >
+          <a-col span="16">
+            <a-input
+              addonBefore="hyu.ac/"
+              v-decorator="[
+                'keyword',
+                {
+                  rules: [
+                    { required: true },
+                    { validator: this.handleKeywordsCheck },
+                  ],
+                },
+              ]"
+            />
+          </a-col>
+        </a-form-item>
+        <a-form-item
+          :colon="false"
+          label="연결 주소 (http[s]를 포함한 연결 주소)"
+        >
+          <a-col span="24">
+            <a-input
+              v-decorator="[
+                'url',
+                {
+                  rules: [
+                    {
+                      type: 'url',
+                      message: 'http(s)를 포함한 연결 주소를 입력해주세요.',
+                    },
+                    {
+                      required: true,
+                      message: '연결 주소는 필수 입력해주세요.',
+                    },
+                  ],
+                },
+              ]"
+            />
+          </a-col>
+        </a-form-item>
+        <a-form-item :colon="false" label="제목">
+          <a-col span="24">
+            <a-input
+              v-decorator="[
+                'title',
+                {
+                  rules: [{ required: true, message: '제목을 입력해주세요.' }],
+                },
+              ]"
+            />
+          </a-col>
+        </a-form-item>
+        <a-form-item
+          :colon="false"
+          label="설명 (신청 사유 및 용도를 적어주세요)"
+        >
+          <a-col span="24">
+            <a-textarea
+              :autosize="{ minRows: 5 }"
+              v-decorator="[
+                'description',
+                {
+                  rules: [{ required: true, message: '설명을 입력해주세요.' }],
+                },
+              ]"
+            />
+          </a-col>
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
 <script>
-import KeywordAddForm from '../../components/admin/KeywordAddForm';
+import axios from 'axios';
 
 export default {
   name: 'Index',
-  components: { KeywordAddForm },
 
   data() {
     return {
+      // 키워드 등록 모달을 위한
+      visible: false,
+      is_requesting: false,
+      form: this.$form.createForm(this),
+
       pathname: window.location.pathname,
     };
+  },
+
+  methods: {
+    showModal() {
+      this.visible = true;
+    },
+
+    handleKeywordsCheck(rule, value, callback) {
+      if (!value) {
+        callback();
+
+        return false;
+      }
+
+      return axios
+        .get(`${process.env.VUE_APP_API_HOST}/api/keywords/check?q=${value}`)
+        .then(() => {
+          callback();
+        })
+        .catch(() => {
+          callback('사용할 수 없는 키워드입니다.');
+        });
+    },
+
+    confirmRegister() {},
   },
 };
 </script>
