@@ -1,11 +1,19 @@
+import os
+import jinja2
+
 from flask import Flask
 from flask_cors import CORS
 from flask_dotenv import DotEnv
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__, static_folder="../app/dist/static", template_folder="../app/dist")
+app = Flask(__name__, static_folder="../app/dist/static")
 app.url_map.strict_slashes = False
+
+dist = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../app/dist")
+
+jinja_loader = jinja2.ChoiceLoader([app.jinja_loader, jinja2.FileSystemLoader(dist)])
+app.jinja_loader = jinja_loader
 
 csrf = CSRFProtect(app)
 env = DotEnv(app)

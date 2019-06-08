@@ -4,7 +4,7 @@ from flask_httpauth import HTTPBasicAuth
 from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from baro import app, db
+from baro import app, db, email
 from baro.models import Request, Url, Support
 
 
@@ -42,7 +42,7 @@ class AdminKeywordView(FlaskView):
     def post(self):
         args = request.get_json(silent=True)
 
-        keyword = Url(args["keyword"], args["url"], "", "")
+        keyword = Url(args["keyword"], args["url"], args["title"], args["description"])
         db.session.add(keyword)
         db.session.commit()
 
@@ -101,6 +101,12 @@ class AdminRequestView(FlaskView):
         db.session.add(keyword)
         db.session.commit()
 
+        # 승인 결과 메일 발송
+        html_string = render_template(
+            "email/approved.html", keyword=args["keyword"], name=args["name"]
+        )
+        email.send_email(request_obj.email, "[한양] 신청하신 키워드가 승인되었습니다.", html_string)
+
         return make_response(jsonify({"message": "승인 처리를 완료했습니다."}), 200)
 
     @route("/disapprove/", methods=["POST"])
@@ -112,6 +118,12 @@ class AdminRequestView(FlaskView):
         request_obj.disapproved_reason = args["disapproved_reason"]
 
         db.session.commit()
+
+        # 반려 결과 메일 발송
+        html_string = render_template(
+            "email/disapproved.html", keyword=args["keyword"], name=args["name"]
+        )
+        email.send_email(request_obj.email, "[한양] 신청하신 키워드가 반려되었습니다.", html_string)
 
         return make_response(jsonify({"message": "반려 처리를 완료했습니다."}), 200)
 

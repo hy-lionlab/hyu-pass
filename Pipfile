@@ -21,6 +21,7 @@ blinker = "*"
 flask-httpauth = "*"
 geoip2 = "*"
 flask-classful = "*"
+boto3 = "*"
 
 [requires]
 python_version = "3.7"

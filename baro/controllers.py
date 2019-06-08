@@ -6,7 +6,7 @@ from sqlalchemy import exc, desc
 from flask import render_template, request, jsonify, make_response, redirect
 from flask_classful import FlaskView, route
 
-from baro import app, db
+from baro import app, db, email
 from baro.models import Request, Url, Log, Support
 
 
@@ -32,7 +32,7 @@ def get_country_code(ip_address):
 def catch_all(path):
     # ROOT PATH 접근 시 Redirect
     if not path:
-        return redirect(app.confg("MAIN_REDIRECT_PAGE"))
+        return redirect(app.config["MAIN_REDIRECT_PAGE"])
 
     # 등록된 Keywords 확인 - Redirect 302
     url_obj = Url.query.filter(Url.keyword == path and Url.deleted_at.is_(None)).first()
@@ -110,6 +110,14 @@ class KeywordView(FlaskView):
         )
         db.session.add(keyword)
         db.session.commit()
+
+        # 신청 완료 메일 발송
+        html_string = render_template(
+            "email/requested.html", keyword=args["keyword"], name=args["name"]
+        )
+        email.send_email(
+            args["email"] + "@hanyang.ac.kr", "[한양] 키워드 신청이 완료되었습니다.", html_string
+        )
 
         return make_response(jsonify({"message": "키워드 신청을 완료했습니다."}), 201)
 
