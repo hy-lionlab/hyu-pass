@@ -1,18 +1,9 @@
-MaxMind provides a PPA for recent version of Ubuntu. To add the PPA to your APT sources, run:
+## TODO (~런칭)
 
-```
-$ sudo add-apt-repository ppa:maxmind/ppa
-```
-
-Then install the packages by running:
-
-```
-$ sudo apt update
-$ sudo apt install libmaxminddb0 libmaxminddb-dev mmdb-bin
-```
-
-If you are on OS X and you have homebrew (see http://brew.sh/) you can install libmaxminddb via brew.
-
-```
-$ brew install libmaxminddb
-```
+0. 피드백
+1. Refactoring
+2. 이메일 템플릿 수정 (+ QR Code)
+3. Pattern Check
+4. Reserved Keyword
+5. QA Test -> 디테일 수정
+6. AWS EC2 올리기
