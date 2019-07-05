@@ -128,7 +128,7 @@ class AdminRequestView(FlaskView):
         # 반려 결과 메일 발송
         html_string = render_template(
             "email/disapproved.html",
-            keyword=args["keyword"],
+            keyword=request_obj.keyword,
             reason=args["disapproved_reason"],
             created_at=request_obj.created_at,
         )
