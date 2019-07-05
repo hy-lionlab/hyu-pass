@@ -10,14 +10,7 @@
         }"
       >
         <router-link to="/admin/requests" class="logo">
-          <a-icon
-            type="tag"
-            theme="twoTone"
-            :style="{ fontSize: '16px', marginRight: '4px' }"
-            twoToneColor="#025baf"
-          />
-          <span class="name">바로</span>
-          <span class="colored-name">한양</span>
+          <img src="../../assets/logo.png" />
         </router-link>
         <a-menu
           mode="horizontal"
