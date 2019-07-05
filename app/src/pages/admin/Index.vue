@@ -160,6 +160,7 @@ export default {
       this.visible = true;
     },
 
+    // 키워드 등록 모달 - 키워드 체크
     handleKeywordsCheck(rule, value, callback) {
       if (!value) {
         callback();
@@ -177,6 +178,7 @@ export default {
         });
     },
 
+    // 키워드 등록 모달 - 등록
     confirmRegister() {
       if (this.is_requesting) {
         return false;
