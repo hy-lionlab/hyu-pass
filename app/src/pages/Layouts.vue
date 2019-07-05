@@ -32,7 +32,12 @@
       'HYPASS 한양하이패스'는 한양대 전용 '단축 주소(URL)' 서비스 입니다.<br />
       한양대학교 미디어전략센터 | (04763) 서울특별시 성동구 왕십리로 222 | email
       : hypass@hyu.ac | Made by Lionlab<br />
-      COPYRIGHT@2019 HANYANG UNIVERISTY. ALL RIGHTS RESERVED
+      COPYRIGHT@2019 HANYANG UNIVERISTY. ALL RIGHTS RESERVED<br />
+      <a
+        href="http://wiki.hanyang.ac.kr/%ED%95%9C%EC%96%91%ED%95%98%EC%9D%B4%ED%8C%A8%EC%8A%A4"
+        target="_blank"
+        >About HYPASS</a
+      >
     </a-layout-footer>
   </a-layout>
 </template>
