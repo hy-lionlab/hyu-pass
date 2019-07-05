@@ -17,7 +17,7 @@
             </p>
             <p style="line-height: 2; margin-top: 20px;">
               <b>승인 일시 :</b> {{ created_at.strftime('%Y-%m-%d %H:%M') }}<br/>
-              <b>신청 주소 :</b> <a href="{{ request.host_url }}{{ keyword }}" target="_blank">https://hyu.ac/{{ keyword }}</a><br/>
+              <b>신청 주소 :</b> <a href="{{ request.host_url }}{{ keyword }}" target="_blank">{{ request.host_url }}{{ keyword }}</a><br/>
               <b>연결 주소 :</b> <a href="{{ url }}" target="_blank">{{ url }}</a>
             </p>
             <p style="line-height: 1.5; margin-top: 20px;">

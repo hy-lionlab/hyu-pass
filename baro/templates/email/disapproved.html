@@ -18,7 +18,7 @@
             </p>
             <p style="line-height: 2; margin-top: 20px;">
               <b>신청 일시 :</b> {{ created_at.strftime('%Y-%m-%d %H:%M') }}<br/>
-              <b>신청 키워드 :</b> {{ keyword }} (https://hyu.ac/{{ keyword }})<br/>
+              <b>신청 키워드 :</b> {{ keyword }} ({{ request.host_url }}{{ keyword }})<br/>
               <b>반려 사유</b><br/>
               {{ reason }}
             </p>

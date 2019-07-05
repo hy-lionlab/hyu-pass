@@ -21,7 +21,7 @@
               <b>신청자 이름 :</b> {{ name }}<br/>
               <b>신청자 이메일 :</b> {{ email }}@hanyang.ac.kr<br/>
               <b>신청 타이틀 :</b> {{ title }}<br/>
-              <b>신청 키워드 :</b> {{ keyword}} (https://hyu.ac/{{ keyword }})<br/>
+              <b>신청 키워드 :</b> {{ keyword}} ({{ request.host_url }}{{ keyword }})<br/>
               <b>연결 주소 :</b> <a href="{{ url }}" target="_blank">{{ url }}</a>
             </p>
           </td>
