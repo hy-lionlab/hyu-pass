@@ -1,7 +1,12 @@
 <template>
   <div class="admin-keyword-wrap">
     <a-table :columns="columns" :dataSource="data">
-      <a slot="keyword" slot-scope="text">{{ text }}</a>
+      <span slot="keyword" slot-scope="text">
+        {{ text }}
+        <a @click="doCopy(text)">
+          <a-icon type="copy" />
+        </a>
+      </span>
       <a slot="url" slot-scope="text" :href="text" target="_blank">{{
         text
       }}</a>
@@ -202,6 +207,15 @@ export default {
         .catch(() => {
           $this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
         });
+    },
+
+    doCopy(keyword) {
+      const url = `hyu.ac/${keyword}`;
+      const $this = this;
+
+      this.$copyText(url).then(() => {
+        $this.$message.success(`${url} 주소가 복사 되었습니다. 🎉`);
+      });
     },
 
     showModal(record) {

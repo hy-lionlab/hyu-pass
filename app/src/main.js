@@ -3,6 +3,7 @@ import 'ant-design-vue/dist/antd.css';
 import axios from 'axios';
 import Vue from 'vue';
 import VueProgressBar from 'vue-progressbar';
+import VueClipboard from 'vue-clipboard2';
 import Antd from 'ant-design-vue';
 
 import App from './App';
@@ -18,6 +19,7 @@ axios.defaults.headers.common = {
 Vue.config.productionTip = false;
 
 /* Vue Libraries */
+Vue.use(VueClipboard);
 Vue.use(Antd);
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
