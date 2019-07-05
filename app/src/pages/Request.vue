@@ -165,25 +165,24 @@ export default {
 
   methods: {
     handleSubmit(e) {
-      const $this = this;
-      $this.is_requesting = true;
+      this.is_requesting = true;
 
       e.preventDefault();
 
-      $this.form.validateFieldsAndScroll((err, values) => {
+      this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           axios
             .post(`${process.env.VUE_APP_API_HOST}/api/keywords`, values)
             .then(response => {
-              $this.is_requesting = false;
-              $this.$message.success(response.data.message);
+              this.is_requesting = false;
+              this.$message.success(response.data.message);
 
               // FIXME: 경로 수정하기
-              $this.$router.push('/');
+              this.$router.push('/');
             })
             .catch(error => {
-              $this.is_requesting = false;
-              $this.$message.error(error.response.data.message);
+              this.is_requesting = false;
+              this.$message.error(error.response.data.message);
             });
         }
       });
@@ -196,17 +195,16 @@ export default {
         return false;
       }
 
-      const $this = this;
-      $this.is_requesting = true;
+      this.is_requesting = true;
 
       return axios
         .get(`${process.env.VUE_APP_API_HOST}/api/keywords/check?q=${value}`)
         .then(() => {
-          $this.is_requesting = false;
+          this.is_requesting = false;
           callback();
         })
         .catch(() => {
-          $this.is_requesting = false;
+          this.is_requesting = false;
           callback('사용할 수 없는 키워드입니다.');
         });
     },

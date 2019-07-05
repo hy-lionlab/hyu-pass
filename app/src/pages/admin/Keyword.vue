@@ -188,12 +188,10 @@ export default {
 
   methods: {
     fetch() {
-      const $this = this;
-
       axios
         .get(`${process.env.VUE_APP_API_HOST}/admin/api/keywords`)
         .then(response => {
-          $this.data = response.data.keywords.map(value => {
+          this.data = response.data.keywords.map(value => {
             return {
               id: value.id,
               key: value.id.toString(),
@@ -208,16 +206,15 @@ export default {
           });
         })
         .catch(() => {
-          $this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
+          this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
         });
     },
 
     doCopy(keyword) {
       const url = `hyu.ac/${keyword}`;
-      const $this = this;
 
       this.$copyText(url).then(() => {
-        $this.$message.success(`${url} 주소가 복사 되었습니다. 🎉`);
+        this.$message.success(`${url} 주소가 복사 되었습니다. 🎉`);
       });
     },
 
@@ -243,8 +240,6 @@ export default {
 
     // 활성, 비활성 처리
     confirmActive(e) {
-      const $this = this;
-
       axios
         .post(
           `${process.env.VUE_APP_API_HOST}/admin/api/keywords/active/status`,
@@ -257,21 +252,20 @@ export default {
           },
         )
         .then(response => {
-          $this.$message.success(response.data.message);
-          $this.fetch();
+          this.$message.success(response.data.message);
+          this.fetch();
         })
         .catch(() => {
-          $this.$message.error('승인 처리 도중 오류가 발생했습니다.');
-          $this.fetch();
+          this.$message.error('승인 처리 도중 오류가 발생했습니다.');
+          this.fetch();
         });
     },
 
     // 수정
     confirmModify() {
-      const $this = this;
-      $this.is_requesting = true;
+      this.is_requesting = true;
 
-      $this.form.validateFieldsAndScroll((err, values) => {
+      this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           axios
             .post(
@@ -279,15 +273,15 @@ export default {
               values,
             )
             .then(response => {
-              $this.$message.success(response.data.message);
+              this.$message.success(response.data.message);
             })
             .catch(error => {
-              $this.$message.error(error.response.data.message);
+              this.$message.error(error.response.data.message);
             })
             .finally(() => {
-              $this.is_requesting = false;
-              $this.visible = false;
-              $this.fetch();
+              this.is_requesting = false;
+              this.visible = false;
+              this.fetch();
             });
         }
       });

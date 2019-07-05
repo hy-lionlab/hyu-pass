@@ -121,12 +121,10 @@ export default {
 
   methods: {
     fetch() {
-      const $this = this;
-
       axios
         .get(`${process.env.VUE_APP_API_HOST}/admin/api/requests`)
         .then(response => {
-          $this.data = response.data.requests.map(value => {
+          this.data = response.data.requests.map(value => {
             let status = 'WAITING';
             if (value.is_approved !== null) {
               status = value.is_approved ? 'APPROVE' : 'DISAPPROVE';
@@ -148,14 +146,12 @@ export default {
           });
         })
         .catch(() => {
-          $this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
+          this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
         });
     },
 
     // 승인 처리
     confirmApprove(e) {
-      const $this = this;
-
       axios
         .post(
           `${process.env.VUE_APP_API_HOST}/admin/api/requests/approve`,
@@ -167,11 +163,11 @@ export default {
           },
         )
         .then(response => {
-          $this.$message.success(response.data.message);
-          $this.fetch();
+          this.$message.success(response.data.message);
+          this.fetch();
         })
         .catch(() => {
-          $this.$message.error('승인 처리 도중 오류가 발생했습니다.');
+          this.$message.error('승인 처리 도중 오류가 발생했습니다.');
         });
     },
 
@@ -182,13 +178,12 @@ export default {
 
     // 반려 처리
     confirmDisapprove(e) {
-      const $this = this;
-      $this.is_requesting = true;
+      this.is_requesting = true;
 
       e.preventDefault();
-      $this.form.validateFields((err, values) => {
+      this.form.validateFields((err, values) => {
         if (!err) {
-          const newValues = { ...values, id: $this.selectedRecord.id };
+          const newValues = { ...values, id: this.selectedRecord.id };
 
           axios
             .post(
@@ -199,17 +194,17 @@ export default {
               },
             )
             .then(response => {
-              $this.$message.success(response.data.message);
-              $this.fetch();
+              this.$message.success(response.data.message);
+              this.fetch();
             })
             .catch(error => {
-              $this.$message.error(error.response.data.message);
+              this.$message.error(error.response.data.message);
             })
             .finally(() => {
-              $this.is_requesting = false;
-              $this.visible = false;
-              $this.selectedRecord = null;
-              $this.form.setFieldsValue({
+              this.is_requesting = false;
+              this.visible = false;
+              this.selectedRecord = null;
+              this.form.setFieldsValue({
                 disapproved_reason: '',
               });
             });

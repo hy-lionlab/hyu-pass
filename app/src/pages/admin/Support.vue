@@ -59,12 +59,10 @@ export default {
 
   methods: {
     fetch() {
-      const $this = this;
-
       axios
         .get(`${process.env.VUE_APP_API_HOST}/admin/api/supports`)
         .then(response => {
-          $this.data = response.data.supports.map((value, index) => {
+          this.data = response.data.supports.map((value, index) => {
             return {
               key: index.toString(),
               keyword: value.keyword,
@@ -77,7 +75,7 @@ export default {
           });
         })
         .catch(() => {
-          $this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
+          this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
         });
     },
   },

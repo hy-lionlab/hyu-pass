@@ -61,12 +61,10 @@ export default {
 
   methods: {
     fetch() {
-      const $this = this;
-
       axios
         .get(`${process.env.VUE_APP_API_HOST}/api/keywords`)
         .then(response => {
-          $this.data = response.data.keywords.map((value, index) => {
+          this.data = response.data.keywords.map((value, index) => {
             return {
               key: index.toString(),
               keyword: value.keyword,
@@ -78,16 +76,15 @@ export default {
           });
         })
         .catch(() => {
-          $this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
+          this.$message.error('정보를 불러오는 도중 오류가 발생했습니다.');
         });
     },
 
     doCopy(keyword) {
       const url = `hyu.ac/${keyword}`;
-      const $this = this;
 
       this.$copyText(url).then(() => {
-        $this.$message.success(`${url} 주소가 복사 되었습니다. 🎉`);
+        this.$message.success(`${url} 주소가 복사 되었습니다. 🎉`);
       });
     },
   },
