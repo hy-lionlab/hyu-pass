@@ -176,9 +176,7 @@ export default {
             .then(response => {
               this.is_requesting = false;
               this.$message.success(response.data.message);
-
-              // FIXME: 경로 수정하기
-              this.$router.push('/');
+              this.form.resetFields();
             })
             .catch(error => {
               this.is_requesting = false;

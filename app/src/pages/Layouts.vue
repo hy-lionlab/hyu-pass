@@ -1,24 +1,24 @@
 <template>
   <a-layout>
     <a-layout-header :style="{ position: 'fixed', zIndex: 5, width: '100%' }">
-      <router-link to="/" class="logo">
+      <router-link to="/list" class="logo">
         <img src="../assets/logo.png" />
       </router-link>
       <div class="right">
         <a-button :style="{ marginRight: '5px' }">
-          <router-link to="/supports">
+          <router-link to="/change">
             <a-icon type="question" :style="{ marginRight: '3px' }" />
             문의하기
           </router-link>
         </a-button>
         <a-button :style="{ marginRight: '5px' }">
-          <router-link to="/keywords">
+          <router-link to="/list">
             <a-icon type="ordered-list" />
             목록보기
           </router-link>
         </a-button>
         <a-button type="primary">
-          <router-link to="/requests">
+          <router-link to="/make">
             신청하기
           </router-link>
         </a-button>

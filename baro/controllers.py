@@ -71,9 +71,9 @@ def get_qrcode():
 
 
 @app.route("/sorry")
-@app.route("/keywords")
-@app.route("/requests")
-@app.route("/supports")
+@app.route("/list")
+@app.route("/make")
+@app.route("/change")
 def index():
     return render_template("index.html")
 

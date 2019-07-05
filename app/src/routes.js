@@ -25,18 +25,18 @@ export default new Router({
         // ROOT PATH DEFAULT
         {
           path: '',
-          redirect: 'requests',
+          redirect: 'list',
         },
         {
-          path: 'supports',
+          path: 'change',
           component: Support,
         },
         {
-          path: 'keywords',
+          path: 'list',
           component: Keyword,
         },
         {
-          path: 'requests',
+          path: 'make',
           component: Request,
         },
       ],

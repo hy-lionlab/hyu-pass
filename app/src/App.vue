@@ -10,12 +10,6 @@
 export default {
   name: 'App',
 
-  computed: {
-    mail() {
-      return `mailto:${process.env.VUE_APP_REPORT_MAIL}`;
-    },
-  },
-
   mounted() {
     this.$Progress.finish();
   },
