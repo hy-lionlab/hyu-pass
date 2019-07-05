@@ -177,7 +177,31 @@ export default {
         });
     },
 
-    confirmRegister() {},
+    confirmRegister() {
+      if (this.is_requesting) {
+        return false;
+      }
+
+      this.form.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+          axios
+            .post(`${process.env.VUE_APP_API_HOST}/admin/api/keywords/`, values)
+            .then(response => {
+              this.$message.success(response.data.message);
+              window.location.reload();
+            })
+            .catch(error => {
+              this.$message.error(error.response.data.message);
+            })
+            .finally(() => {
+              this.is_requesting = false;
+              this.visible = false;
+            });
+        }
+      });
+
+      return true;
+    },
   },
 };
 </script>
