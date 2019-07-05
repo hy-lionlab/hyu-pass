@@ -3,10 +3,10 @@ import geoip2.errors
 import geoip2.database
 
 from sqlalchemy import exc, desc
-from flask import render_template, request, jsonify, make_response, redirect
+from flask import render_template, request, jsonify, make_response, redirect, send_file
 from flask_classful import FlaskView, route
 
-from baro import app, db, email
+from baro import app, db, email, qrcode
 from baro.models import Request, Url, Log, Support
 
 
@@ -56,6 +56,18 @@ def catch_all(path):
 
     # 등록된 키워드 X + NO ROOT PATH + RESERVED KEYWORDS X
     return redirect("/sorry")
+
+
+@app.route("/qrcode", methods=["GET"])
+def get_qrcode():
+    data = request.args.get("data", "")
+
+    return send_file(
+        qrcode(data, mode="raw", error_correction="H"),
+        mimetype="image/png",
+        attachment_filename="qrcode.png",
+        as_attachment=True,
+    )
 
 
 @app.route("/sorry")
@@ -113,10 +125,18 @@ class KeywordView(FlaskView):
 
         # 신청 완료 메일 발송
         html_string = render_template(
-            "email/requested.html", keyword=args["keyword"], name=args["name"]
+            "email/requested.html",
+            keyword=args["keyword"],
+            title=args["title"],
+            name=args["name"],
+            email=args["email"],
+            url=args["url"],
+            created_at=keyword.created_at,
         )
         email.send_email(
-            args["email"] + "@hanyang.ac.kr", "[한양] 키워드 신청이 완료되었습니다.", html_string
+            args["email"] + "@hanyang.ac.kr",
+            "[한양 하이패스] 신청하신 단축 주소가 접수되었습니다.",
+            html_string,
         )
 
         return make_response(jsonify({"message": "키워드 신청을 완료했습니다."}), 201)

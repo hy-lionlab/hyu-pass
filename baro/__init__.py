@@ -19,7 +19,7 @@ app.jinja_loader = jinja_loader
 csrf = CSRFProtect(app)
 env = DotEnv(app)
 db = SQLAlchemy(app)
-QRcode(app)
+qrcode = QRcode(app)
 
 import os
 import rollbar

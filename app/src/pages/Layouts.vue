@@ -2,7 +2,7 @@
   <a-layout>
     <a-layout-header :style="{ position: 'fixed', zIndex: 5, width: '100%' }">
       <router-link to="/" class="logo">
-        <img src="../assets/logo.png" height="40px" />
+        <img src="../assets/logo.png" />
       </router-link>
       <div class="right">
         <a-button :style="{ marginRight: '5px' }">

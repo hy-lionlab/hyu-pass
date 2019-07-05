@@ -2,14 +2,17 @@
   <div class="admin-keyword-wrap">
     <a-table :columns="columns" :dataSource="data">
       <span slot="keyword" slot-scope="text">
-        {{ text }}
-        <a @click="doCopy(text)">
+        <b>{{ text }}</b>
+        <a @click="doCopy(text)" style="margin-left: 5px;">
           <a-icon type="copy" />
         </a>
+        <a @click="qrDownload(text)" style="margin-left: 5px;">
+          <a-icon type="download" />
+        </a>
       </span>
-      <a slot="url" slot-scope="text" :href="text" target="_blank">{{
-        text
-      }}</a>
+      <a slot="url" slot-scope="text" :href="text" target="_blank">
+        {{ text }}
+      </a>
       <span slot="action" slot-scope="text, record">
         <a-button @click="showModal(record)">수정</a-button>
         <a-divider type="vertical" />
@@ -216,6 +219,11 @@ export default {
       this.$copyText(url).then(() => {
         $this.$message.success(`${url} 주소가 복사 되었습니다. 🎉`);
       });
+    },
+
+    qrDownload(keyword) {
+      const url = `hyu.ac/${keyword}`;
+      window.open(`/qrcode?data=${url}`, '_blank');
     },
 
     showModal(record) {

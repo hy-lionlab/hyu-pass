@@ -11,25 +11,25 @@
       <table role="presentation" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td>
-            <p>{{ name }}</p>
-            <p>{{ keyword }}</p>
-            <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-              <tbody>
-                <tr>
-                  <td align="left">
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                      <tbody>
-                        <tr>
-                          <td> <a href="http://htmlemail.io" target="_blank">Call To Action</a> </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <p>
-              <img src="{{ qrcode(url) }}" />
+            <p style="line-height: 1.5;">
+              안녕하세요. '한양 하이패스'에서 신청하신 단축 주소가 승인 처리되었습니다.<br/>
+              바로 사용이 가능하며, 아래 내용을 참고해 주시기 바랍니다.
+            </p>
+            <p style="line-height: 2; margin-top: 20px;">
+              <b>승인 일시 :</b> {{ created_at.strftime('%Y-%m-%d %H:%M') }}<br/>
+              <b>신청 주소 :</b> <a href="{{ request.host_url }}{{ keyword }}" target="_blank">https://hyu.ac/{{ keyword }}</a><br/>
+              <b>연결 주소 :</b> <a href="{{ url }}" target="_blank">{{ url }}</a>
+            </p>
+            <p style="line-height: 1.5; margin-top: 20px;">
+              <b>* QR 코드 사용 안내</b><br/>
+              - 다음과 같이 지정 단축 주소로 연결되는 QR코드가 생성되었습니다.<br/><br/>
+              <img src="{{ qrcode(url) }}" width="150px" /><br/><br/>
+              - <a href="{{ url_for('get_qrcode', data='hyu.ac/' + keyword) }}" target="_blank">PNG 다운로드</a>
+            </p>
+            <p style="line-height: 1.5; margin-top: 20px;">
+              * 사용 중단/ 주소 수정 / 주소 변경 신청은 <a href="{{ request.host_url }}change">[https://hyu.ac/change]</a> 에서 할 수 있습니다.<br/>
+              * 키워드 변경은 불가하오니, 사용 중단 처리 후 새로 신청해주시기 바랍니다.<br/>
+              * 기타 사용 관련 문의는 이메일 (hypass@hyu.ac) 로 해주시기 바랍니다.
             </p>
           </td>
         </tr>

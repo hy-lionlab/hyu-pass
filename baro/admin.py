@@ -107,8 +107,11 @@ class AdminRequestView(FlaskView):
             keyword=request_obj.keyword,
             name=request_obj.name,
             url=request_obj.url,
+            created_at=keyword.created_at,
         )
-        email.send_email(request_obj.email, "[한양] 신청하신 키워드가 승인되었습니다.", html_string)
+        email.send_email(
+            request_obj.email, "[한양 하이패스] 신청하신 단축 주소가 승인되었습니다.", html_string
+        )
 
         return make_response(jsonify({"message": "승인 처리를 완료했습니다."}), 200)
 
@@ -124,9 +127,12 @@ class AdminRequestView(FlaskView):
 
         # 반려 결과 메일 발송
         html_string = render_template(
-            "email/disapproved.html", keyword=args["keyword"], name=args["name"]
+            "email/disapproved.html",
+            keyword=args["keyword"],
+            reason=args["disapproved_reason"],
+            created_at=request_obj.created_at,
         )
-        email.send_email(request_obj.email, "[한양] 신청하신 키워드가 반려되었습니다.", html_string)
+        email.send_email(request_obj.email, "[한양 하이패스] 신청하신 단축 주소 반려 안내", html_string)
 
         return make_response(jsonify({"message": "반려 처리를 완료했습니다."}), 200)
 
