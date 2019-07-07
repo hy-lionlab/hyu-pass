@@ -40,12 +40,13 @@ def catch_all(path):
         url_obj.hit_count = int(url_obj.hit_count) + 1
 
         try:
-            remote_addr = request.remote_addr
+            headers_list = request.headers.getlist("X-Forwarded-For")
+            user_ip = headers_list[0] if headers_list else request.remote_addr
             referrer = request.headers.get("Referer")
             user_agent = request.headers.get("User-Agent")
-            country_code = get_country_code(remote_addr)
+            country_code = get_country_code(user_ip)
 
-            log = Log(url_obj.id, referrer, user_agent, remote_addr, country_code)
+            log = Log(url_obj.id, referrer, user_agent, user_ip, country_code)
 
             db.session.add(log)
             db.session.commit()
