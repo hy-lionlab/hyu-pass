@@ -161,7 +161,9 @@ SupportView.register(app)
 KeywordView.register(app)
 
 
-# FIXME: 개발 완료 시 해제
-# @app.errorhandler(Exception)
-# def catch_error(e):
-#     return make_response(jsonify({"message": e.message}), e.code)
+@app.errorhandler(Exception)
+def catch_error(e):
+    if app.debug:
+        return e
+
+    return make_response(jsonify({"message": e.message}), e.code)
