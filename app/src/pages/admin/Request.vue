@@ -6,7 +6,7 @@
       :default-expand-all-rows="true"
     >
       <a slot="keyword" slot-scope="text">{{ text }}</a>
-      <a slot="url" slot-scope="text" :href="text" target="_blank">{{
+      <a slot="url" slot-scope="text" :href="text" target="_blank" style="word-break: break-all;">{{
         text
       }}</a>
       <span slot="status" slot-scope="text">

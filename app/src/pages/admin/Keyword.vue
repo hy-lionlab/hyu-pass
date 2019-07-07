@@ -10,7 +10,7 @@
           <a-icon type="download" />
         </a>
       </span>
-      <a slot="url" slot-scope="text" :href="text" target="_blank">
+      <a slot="url" slot-scope="text" :href="text" target="_blank" style="word-break: break-all;">
         {{ text }}
       </a>
       <span slot="action" slot-scope="text, record">

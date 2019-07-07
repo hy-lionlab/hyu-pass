@@ -9,9 +9,9 @@
             <a-icon type="copy" />
           </a>
         </span>
-        <a slot="url" slot-scope="text" :href="text" target="_blank">{{
-          text
-        }}</a>
+        <a slot="url" slot-scope="text" :href="text" target="_blank" style="word-break: break-all;">
+          {{ text }}
+        </a>
         <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
           <strong>{{ record.title }}</strong>
           <br /><br />
