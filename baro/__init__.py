@@ -32,7 +32,7 @@ def init_rollbar():
     """init rollbar module"""
     rollbar.init(
         app.config["ROLLBAR_TOKEN"],
-        "debug" if app.config["DEBUG"] else "production",
+        app.config["ENV"],
         root=os.path.dirname(os.path.realpath(__file__)),
         allow_logging_basic_config=False,
     )
