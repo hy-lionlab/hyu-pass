@@ -163,7 +163,7 @@ KeywordView.register(app)
 
 @app.errorhandler(Exception)
 def catch_error(e):
-    if app.debug:
+    if app.config["DEBUG"]:
         return e
 
     return make_response(jsonify({"message": e.message}), e.code)

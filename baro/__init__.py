@@ -32,7 +32,7 @@ def init_rollbar():
     """init rollbar module"""
     rollbar.init(
         app.config["ROLLBAR_TOKEN"],
-        "debug" if app.debug else "production",
+        "debug" if app.config["DEBUG"] else "production",
         root=os.path.dirname(os.path.realpath(__file__)),
         allow_logging_basic_config=False,
     )
@@ -41,14 +41,14 @@ def init_rollbar():
 
 
 # 디버그 모드일 경우 CORS 허용 및 CSRF CHECK EXEMPT
-if app.debug:
+if app.config["DEBUG"]:
     CORS(app, supports_credentials=True)
     app.config["WTF_CSRF_CHECK_DEFAULT"] = False
 
 # 디버그 모드에서 CSRF CHECK EXEMPT 처리를 위해 Handle
 @app.before_request
 def check_csrf():
-    if not app.debug:
+    if not app.config["DEBUG"]:
         csrf.protect()
 
 
