@@ -1,4 +1,6 @@
+import rollbar
 import boto3
+from botocore.exceptions import ClientError
 
 from baro import app
 
@@ -14,13 +16,16 @@ def send_email(email, subject, body):
         aws_secret_access_key=app.config["AWS_SES_ACCESS_SECRET_KEY"],
     )
 
-    ses.send_email(
-        Source=app.config["EMAIL_FROM"],
-        Destination={"ToAddresses": [email]},
-        Message={
-            "Subject": {"Charset": CHARSET, "Data": subject},
-            "Body": {"Html": {"Charset": CHARSET, "Data": body}},
-        },
-    )
+    try:
+        ses.send_email(
+            Source=app.config["EMAIL_FROM"],
+            Destination={"ToAddresses": email},
+            Message={
+                "Subject": {"Charset": CHARSET, "Data": subject},
+                "Body": {"Html": {"Charset": CHARSET, "Data": body}},
+            },
+        )
+    except ClientError as e:
+        rollbar.report_exc_info()
 
     return True

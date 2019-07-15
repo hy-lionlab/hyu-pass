@@ -114,7 +114,7 @@ class AdminRequestView(FlaskView):
             created_at=keyword.created_at,
         )
         email.send_email(
-            request_obj.email, "[한양 하이패스] 신청하신 단축 주소가 승인되었습니다.", html_string
+            [request_obj.email, app.config["EMAIL_FROM"]], "[한양 하이패스] 신청하신 단축 주소가 승인되었습니다.", html_string
         )
 
         return make_response(jsonify({"message": "승인 처리를 완료했습니다."}), 200)
@@ -137,7 +137,7 @@ class AdminRequestView(FlaskView):
             reason=args["disapproved_reason"],
             created_at=request_obj.created_at,
         )
-        email.send_email(request_obj.email, "[한양 하이패스] 신청하신 단축 주소 반려 안내", html_string)
+        email.send_email([request_obj.email, app.config["EMAIL_FROM"]], "[한양 하이패스] 신청하신 단축 주소 반려 안내", html_string)
 
         return make_response(jsonify({"message": "반려 처리를 완료했습니다."}), 200)
 

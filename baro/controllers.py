@@ -97,6 +97,21 @@ class SupportView(FlaskView):
         db.session.add(support)
         db.session.commit()
 
+        # 문의 접수 메일 발송
+        html_string = render_template(
+            "email/change.html",
+            keyword=args["keyword"],
+            description=args["description"],
+            email=args["email"],
+            url=args["url"],
+            created_at=support.created_at,
+        )
+        email.send_email(
+            [args["email"] + "@hanyang.ac.kr", app.config["EMAIL_FROM"]],
+            "[한양 하이패스] 문의가 접수되었습니다.",
+            html_string,
+        )
+
         return make_response(jsonify({"message": "문의 접수가 되었습니다."}), 201)
 
 
@@ -136,7 +151,7 @@ class KeywordView(FlaskView):
             created_at=keyword.created_at,
         )
         email.send_email(
-            args["email"] + "@hanyang.ac.kr",
+            [args["email"] + "@hanyang.ac.kr", app.config["EMAIL_FROM"]],
             "[한양 하이패스] 신청하신 단축 주소가 접수되었습니다.",
             html_string,
         )
