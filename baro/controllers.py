@@ -1,6 +1,7 @@
 import os
 import geoip2.errors
 import geoip2.database
+import fnmatch
 
 from sqlalchemy import exc, desc
 from flask import render_template, request, jsonify, make_response, redirect, send_file
@@ -11,7 +12,7 @@ from baro.models import Request, Url, Log, Support
 
 
 def get_reserved_keywords():
-    return []
+    return ["list", "list*", "make", "make*", "admin", "admin*", "change", "change*"]
 
 
 def get_country_code(ip_address):
@@ -146,9 +147,14 @@ class KeywordView(FlaskView):
     def check(self):
         keyword = request.args.get("q")
 
-        # TODO: Reserved Keywords 가 있는지 체크
-        if keyword in get_reserved_keywords():
+        # / 비허용
+        if '/' in keyword:
             return make_response("", 400)
+
+        # 예약 키워드 등록 불가
+        for reserved_keyword in get_reserved_keywords():
+            if fnmatch.fnmatch(keyword, reserved_keyword):
+                return make_response("", 400)
 
         query = Url.query.filter(Url.keyword == keyword).exists()
         if db.session.query(query).scalar():
