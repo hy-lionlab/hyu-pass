@@ -30,15 +30,16 @@ def admin():
     return render_template("index.html")
 
 
-# TODO: 개발시 auth.login_required 할 경우 CORS Not Applying
 class AdminKeywordView(FlaskView):
     route_base = "keywords"
     route_prefix = "/admin/api/"
 
+    @auth.login_required
     def index(self):
         keywords = Url.query.order_by(desc(Url.created_at)).all()
         return make_response(jsonify(keywords=Url.serialize_list(keywords)))
 
+    @auth.login_required
     def post(self):
         args = request.get_json(silent=True)
 
@@ -49,6 +50,7 @@ class AdminKeywordView(FlaskView):
         return make_response(jsonify({"message": "키워드 생성을 완료했습니다."}), 201)
 
     @route("/<id>", methods=["POST"])
+    @auth.login_required
     def update(self, id):
         args = request.get_json(silent=True)
 
@@ -63,6 +65,7 @@ class AdminKeywordView(FlaskView):
         return make_response(jsonify({"message": "수정을 완료했습니다."}), 200)
 
     @route("/active/status", methods=["POST"])
+    @auth.login_required
     def change_active_status(self):
         args = request.get_json(silent=True)
 
@@ -74,16 +77,17 @@ class AdminKeywordView(FlaskView):
         return make_response(jsonify({"message": "활성화 상태를 변경했습니다."}), 200)
 
 
-# TODO: 개발시 auth.login_required 할 경우 CORS Not Applying
 class AdminRequestView(FlaskView):
     route_base = "requests"
     route_prefix = "/admin/api/"
 
+    @auth.login_required
     def index(self):
         requests = Request.query.order_by(desc(Request.created_at)).all()
         return make_response(jsonify(requests=Request.serialize_list(requests)))
 
     @route("/approve/", methods=["POST"])
+    @auth.login_required
     def approve(self):
         args = request.get_json(silent=True)
 
@@ -116,6 +120,7 @@ class AdminRequestView(FlaskView):
         return make_response(jsonify({"message": "승인 처리를 완료했습니다."}), 200)
 
     @route("/disapprove/", methods=["POST"])
+    @auth.login_required
     def disapprove(self):
         args = request.get_json(silent=True)
 
@@ -137,11 +142,11 @@ class AdminRequestView(FlaskView):
         return make_response(jsonify({"message": "반려 처리를 완료했습니다."}), 200)
 
 
-# TODO: 개발시 auth.login_required 할 경우 CORS Not Applying
 class AdminSupportView(FlaskView):
     route_base = "supports"
     route_prefix = "/admin/api/"
 
+    @auth.login_required
     def index(self):
         supports = Support.query.order_by(desc(Support.created_at)).all()
         return make_response(jsonify(supports=Support.serialize_list(supports)))

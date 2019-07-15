@@ -26,6 +26,10 @@
 - [Webpack](https://webpack.js.org/)
 - [Vue Ant Design](https://vue.ant.design/docs/vue/introduce/)
 
+## 🔥 관리자 기능 개발 시 주의 사항
+
+관리자 기능 개발 시 `@auth.login_required` 데코레이터를 주석 처리 해야될 수도 있습니다. (참고!) 
+
 ## 🔥🔥 Development Environment
 
 Based on Mac OSX Mojave
