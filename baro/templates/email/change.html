@@ -19,7 +19,7 @@
               <b>신청 일시 :</b> {{ created_at.strftime('%Y-%m-%d %H:%M') }}<br/>
               <b>신청자 이메일 :</b> {{ email }}@hanyang.ac.kr<br/>
               <b>신청 키워드 :</b> {{ keyword}} ({{ request.host_url }}{{ keyword }})<br/>
-              <b>연결 주소 :</b> <a href="{{ url }}" target="_blank">{{ url }}</a>
+              <b>연결 주소 :</b> <a href="{{ url }}" target="_blank">{{ url }}</a><br/>
               <b>문의 내용</b><br/>
               <p>{{ description }}</p>
             </p>
